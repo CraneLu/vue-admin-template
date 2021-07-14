@@ -21,11 +21,16 @@ export default {
     height: {
       type: String,
       default: '300px'
+    },
+    chartData: {
+      type: Array,
+      default: null
     }
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      chartLegendTypes: ['黑点异物', '凹坑', '鼓包', '漏涂', '蚊虫']
     }
   },
   mounted() {
@@ -40,10 +45,22 @@ export default {
     this.chart.dispose()
     this.chart = null
   },
+  watch: {
+    chartData: {
+      deep: true,
+      handler(val) {
+        debugger
+        this.setOptions(val)
+      }
+    }
+  },
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-
+      this.setOptions(this.chartData)
+    },
+    setOptions(data) {
+      if (!data) return
       this.chart.setOption({
         tooltip: {
           trigger: 'item',
@@ -52,24 +69,18 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: this.chartLegendTypes
         },
         series: [
           {
-            name: 'WEEKLY WRITE ARTICLES',
+            name: '',
             type: 'pie',
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: [
-              { value: 320, name: 'Industries' },
-              { value: 240, name: 'Technology' },
-              { value: 149, name: 'Forex' },
-              { value: 100, name: 'Gold' },
-              { value: 59, name: 'Forecasts' }
-            ],
+            data: data,
             animationEasing: 'cubicInOut',
-            animationDuration: 2600
+            animationDuration: 1000
           }
         ]
       })

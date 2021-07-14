@@ -46,7 +46,7 @@ module.exports = {
       //   }
       // },
       [process.env.VUE_APP_BASE_API + '/realdata']: {
-        target: `http://localhost:8080`,
+        target: `http://localhost:9000`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API + '/realdata']: ''

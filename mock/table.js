@@ -1,14 +1,23 @@
 const Mock = require('mockjs')
 
 const data = Mock.mock({
-  'items|30': [{
-    id: '@id',
-    title: '@sentence(10, 20)',
-    'status|1': ['published', 'draft', 'deleted'],
-    author: 'name',
-    display_time: '@datetime',
-    pageviews: '@integer(300, 5000)'
+  'items|5': [{
+    sn: '@increment',
+    startTime: '@datetime',
+    endTime: '@datetime',
+    distance: '@integer(300, 5000)',
+    errorCount: '@integer(300, 5000)'
   }]
+})
+
+const chartData = Mock.mock({
+  'data': [
+    { value: 320, name: '黑点异物' },
+    { value: 240, name: '凹坑' },
+    { value: 149, name: '鼓包' },
+    { value: 100, name: '漏涂' },
+    { value: 59, name: '蚊虫' }
+  ]
 })
 
 module.exports = [
@@ -20,9 +29,20 @@ module.exports = [
       return {
         code: 20000,
         data: {
-          total: items.length,
+          total: 15,
           items: items
         }
+      }
+    }
+  },
+  {
+    url: '/vue-admin-template/table/chart',
+    type: 'get',
+    response: config => {
+      const cd = chartData.data
+      return {
+        code: 20000,
+        data: cd
       }
     }
   }

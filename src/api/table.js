@@ -7,3 +7,11 @@ export function getList(params) {
     params
   })
 }
+
+export function getChartData(sn) {
+  return request({
+    url: '/vue-admin-template/table/chart',
+    method: 'get',
+    sn
+  })
+}
